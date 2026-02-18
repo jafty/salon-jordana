@@ -1,0 +1,43 @@
+{% extends 'guide/base.html' %}
+
+{% block content %}
+<main id="home-view">
+    <section class="hero">
+        <span class="tag-pill">City Guide 31</span>
+        <h1>Le guide ultime de la coiffure afro à Toulouse</h1>
+        <p class="seo-intro">
+            Vous cherchez un <strong>salon afro à Toulouse</strong> ? Que ce soit pour des tresses, des locks, un tissage ou un soin profond sur cheveux naturels, Salon Jordana recense les meilleures adresses de la Ville Rose, du Capitole à Saint-Cyprien.
+        </p>
+    </section>
+
+    <section class="bento-grid">
+        {% for post in posts %}
+            <article class="bento-item {% if post.layout_type == 'large' %}bento-large{% endif %}">
+                <a href="{{ post.get_absolute_url }}">
+                    {% if post.cover_image %}
+                        <div class="img-placeholder" style="background-image: url('{{ post.cover_image.url }}')"></div>
+                    {% endif %}
+                    <div>
+                        <span class="card-category">{{ post.category.name }}</span>
+                        <h2 class="card-title">{{ post.title }}</h2>
+                        <p class="card-excerpt">{{ post.excerpt }}</p>
+                        <div class="card-meta">
+                            {% if post.is_featured %}
+                                <span>Mis en avant</span>
+                            {% else %}
+                                <span>Article</span>
+                            {% endif %}
+                            <span>{{ post.created_at|date:'d/m/Y' }}</span>
+                        </div>
+                    </div>
+                </a>
+            </article>
+        {% empty %}
+            <article class="bento-item">
+                <h2 class="card-title">Aucun article disponible</h2>
+                <p class="card-excerpt">Ajoutez votre premier article depuis l'administration Django.</p>
+            </article>
+        {% endfor %}
+    </section>
+</main>
+{% endblock %}
