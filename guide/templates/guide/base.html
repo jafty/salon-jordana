@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Salon Jordana - Le guide de la coiffure afro à Toulouse{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Découvrez les meilleurs coiffeurs et boutiques pour cheveux afro à Toulouse. Le guide référence pour l'entretien des cheveux crépus, frisés et bouclés dans la Ville Rose.{% endblock %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <svg class="wax-pattern" aria-hidden="true" width="0" height="0" focusable="false">
+        <defs>
+            <pattern id="wax-bg" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M20 20 C 30 10 30 30 40 20 M20 20 C 10 30 10 10 0 20 M20 0 C 30 10 30 30 40 20 M20 40 C 10 30 10 10 0 20 M20 0 C 10 10 10 30 0 20 M20 40 C 30 30 30 10 40 20"
+                      stroke="#2E8B57"
+                      stroke-width="2"
+                      fill="none"
+                      stroke-opacity="0.08"
+                      stroke-linecap="round"></path>
+            </pattern>
+        </defs>
+    </svg>
+
+    <div class="container">
+        <header>
+            <a class="logo" href="{% url 'guide:home' %}">Salon Jordana<span>.</span></a>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'guide:home' %}">Accueil</a></li>
+                    <li><a href="#">Quartiers</a></li>
+                    <li><a href="#">Boutiques</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        {% block content %}{% endblock %}
+
+        <footer>
+            <p>&copy; 2024 Salon Jordana Toulouse - Fait avec ♥ pour la communauté Afro.</p>
+        </footer>
+    </div>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

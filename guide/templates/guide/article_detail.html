@@ -1,0 +1,26 @@
+{% extends 'guide/base.html' %}
+
+{% block title %}{{ post.title }} - Salon Jordana{% endblock %}
+{% block content %}
+<main id="article-view" class="is-visible">
+    <a class="article-back-btn" href="{% url 'guide:home' %}">← Retour au guide</a>
+
+    <article>
+        <header class="article-header">
+            <span class="tag-pill">{{ post.category.name }}</span>
+            <h1>{{ post.title }}</h1>
+        </header>
+
+        {% if post.cover_image %}
+            <div class="article-cover" style="background-image: url('{{ post.cover_image.url }}');"></div>
+        {% else %}
+            <div class="article-cover"></div>
+        {% endif %}
+
+        <div class="article-content">
+            <p class="seo-intro">{{ post.excerpt }}</p>
+            {{ post.content|linebreaks }}
+        </div>
+    </article>
+</main>
+{% endblock %}
