@@ -40,6 +40,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
     padding: 20px 30px;
     margin-bottom: 40px;
     background: rgba(255, 255, 255, 0.9);
@@ -60,6 +61,23 @@ header {
 }
 
 .logo span { color: var(--accent-jungle); }
+
+.header-seo-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--text-light);
+    max-width: 420px;
+    line-height: 1.4;
+}
+
+.header-seo-text a {
+    color: var(--accent-jungle);
+}
+
+.header-seo-text a:hover {
+    text-decoration: underline;
+}
 
 nav ul { display: flex; gap: 20px; }
 nav li a {
@@ -149,6 +167,21 @@ h1 {
 }
 
 @media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        border-radius: 24px;
+        align-items: flex-start;
+    }
+
+    .header-seo-text {
+        text-align: left;
+        max-width: 100%;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+    }
+
     .bento-large { grid-column: span 1; }
     .hero { padding: 20px; }
 }

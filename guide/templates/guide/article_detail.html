@@ -19,7 +19,7 @@
 
         <div class="article-content">
             <p class="seo-intro">{{ post.excerpt }}</p>
-            {{ post.content|linebreaks }}
+            {{ post.content|safe|linebreaksbr }}
         </div>
     </article>
 </main>
