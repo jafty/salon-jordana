@@ -1,0 +1,60 @@
+{% extends 'guide/base.html' %}
+
+{% block title %}Coiffure Afro à {{ city.name }} - Salon Jordana{% endblock %}
+{% block meta_description %}Trouvez une coiffure afro à {{ city.name }} : tresses, locks, tissages, soins et coiffeuses spécialisées. Guide local Salon Jordana.{% endblock %}
+
+{% block content %}
+<main class="city-page">
+    <a class="article-back-btn" href="{% url 'guide:home' %}">← Retour à l'accueil</a>
+
+    <section class="hero city-hero">
+        <span class="tag-pill">Guide local</span>
+        <h1>Coiffure Afro à {{ city.name }}</h1>
+        <p class="seo-intro">{{ city.intro }}</p>
+    </section>
+
+    <section class="city-long-seo-text">
+        <h2>Où trouver une coiffure afro à {{ city.name }} ?</h2>
+        <p>
+            La recherche d'une bonne adresse de coiffure afro à {{ city.name }} repose sur plusieurs critères :
+            l'expérience sur cheveux crépus et frisés, la qualité du conseil, la transparence des tarifs et la
+            disponibilité selon votre emploi du temps. Cette page vous aide à comparer les profils les plus pertinents
+            pour préparer votre prochain rendez-vous.
+        </p>
+        <p>
+            Que vous cherchiez des nattes collées, des knotless braids, un retwist, un tissage ou un soin profond,
+            l'important est d'être accompagnée par une professionnelle qui comprend la nature de votre cheveu,
+            vos objectifs et les besoins de votre cuir chevelu. Sur Salon Jordana, nous mettons en avant les prestataires
+            qui interviennent à {{ city.name }} et dans les communes voisines.
+        </p>
+    </section>
+
+    <section class="city-providers">
+        <h2>Prestataires disponibles à {{ city.name }}</h2>
+        {% if providers %}
+            <div class="bento-grid">
+                {% for provider in providers %}
+                    <article class="bento-item">
+                        <a href="{{ provider.get_absolute_url }}">
+                            <span class="card-category">{{ provider.category.name }}</span>
+                            <h3 class="card-title">{{ provider.title }}</h3>
+                            <p class="card-excerpt">{{ provider.excerpt }}</p>
+                        </a>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Aucun prestataire spécifique à {{ city.name }} n'est encore publié. Revenez bientôt.</p>
+        {% endif %}
+    </section>
+
+    <section class="city-services-links">
+        <h2>Services populaires à {{ city.name }}</h2>
+        <ul>
+            {% for service in service_links %}
+                <li><a href="{{ service.url }}">{{ service.label }}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+</main>
+{% endblock %}

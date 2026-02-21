@@ -57,14 +57,23 @@ class UrlResolutionTests(TestCase):
         )
 
     def test_home_url_resolves(self):
-        response = self.client.get(reverse('guide:home'))
+        response = self.client.get(reverse('guide:home'), follow=True)
         self.assertEqual(response.status_code, 200)
 
     def test_article_detail_url_resolves(self):
-        response = self.client.get(self.post.get_absolute_url())
+        response = self.client.get(self.post.get_absolute_url(), follow=True)
         self.assertEqual(response.status_code, 200)
 
     def test_healthz_url_resolves(self):
-        response = self.client.get(reverse('guide:healthz'))
+        response = self.client.get(reverse('guide:healthz'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content, {'status': 'ok'})
+
+    def test_city_page_url_resolves(self):
+        response = self.client.get(reverse('guide:city_page', kwargs={'city_slug': 'toulouse'}), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Coiffure Afro à Toulouse')
+
+    def test_city_page_404_for_unknown_city(self):
+        response = self.client.get(reverse('guide:city_page', kwargs={'city_slug': 'unknown'}), follow=True)
+        self.assertEqual(response.status_code, 404)

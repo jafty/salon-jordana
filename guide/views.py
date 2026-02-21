@@ -1,14 +1,43 @@
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 from django.views import View
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, TemplateView
 
 from .models import Post
+
+
+CITY_PAGES = [
+    {
+        'slug': 'toulouse',
+        'name': 'Toulouse',
+        'intro': "Trouver une coiffure afro à Toulouse n'est pas toujours simple : disponibilités, savoir-faire sur cheveux crépus, et proximité comptent énormément.",
+    },
+    {
+        'slug': 'blagnac',
+        'name': 'Blagnac',
+        'intro': "À Blagnac, la demande pour la coiffure afro progresse et plusieurs coiffeuses se déplacent aussi à domicile selon les besoins.",
+    },
+    {
+        'slug': 'colomiers',
+        'name': 'Colomiers',
+        'intro': "Coiffure afro à Colomiers : tresses, vanilles, soins et coiffures protectrices accessibles sans aller jusqu'au centre de Toulouse.",
+    },
+    {
+        'slug': 'tournefeuille',
+        'name': 'Tournefeuille',
+        'intro': "Pour une coiffure afro à Tournefeuille, l'objectif est de comparer les profils en fonction de vos cheveux, du style recherché et du budget.",
+    },
+]
 
 
 class HomeView(ListView):
     template_name = 'guide/home.html'
     model = Post
     context_object_name = 'posts'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['city_pages'] = CITY_PAGES
+        return context
 
 
 class ArticleDetailView(DetailView):
@@ -17,6 +46,43 @@ class ArticleDetailView(DetailView):
     context_object_name = 'post'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+
+
+class CityPageView(TemplateView):
+    template_name = 'guide/city_page.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        city = next((item for item in CITY_PAGES if item['slug'] == self.kwargs['city_slug']), None)
+        if city is None:
+            raise Http404('City page not found')
+        city_name = city['name']
+
+        providers = Post.objects.filter(title__icontains=city_name)
+        providers = providers | Post.objects.filter(excerpt__icontains=city_name)
+        providers = providers | Post.objects.filter(content__icontains=city_name)
+
+        context.update(
+            {
+                'city': city,
+                'providers': providers.distinct()[:12],
+                'service_links': [
+                    {
+                        'label': f"Tresses afro à {city_name}",
+                        'url': f"/services/tresses/{city['slug']}/",
+                    },
+                    {
+                        'label': f"Locks & retwist à {city_name}",
+                        'url': f"/services/locks/{city['slug']}/",
+                    },
+                    {
+                        'label': f"Tissage à {city_name}",
+                        'url': f"/services/tissage/{city['slug']}/",
+                    },
+                ],
+            }
+        )
+        return context
 
 
 class HealthCheckView(View):
