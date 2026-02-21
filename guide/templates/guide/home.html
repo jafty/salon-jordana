@@ -39,5 +39,23 @@
             </article>
         {% endfor %}
     </section>
+
+    <section class="home-cta">
+        <h2>Tu es coiffeuse ou coiffeur afro à Toulouse ?</h2>
+        <p>Rejoins les professionnel·le·s référencé·e·s sur Salon Jordana et gagne en visibilité locale.</p>
+        <a href="https://chateau-rose.fr" target="_blank" rel="noopener noreferrer">Je veux être référencé·e</a>
+    </section>
+
+    <section class="city-seo-block" aria-label="Pages coiffure afro par ville">
+        <h2>Coiffure Afro par ville</h2>
+        <p>Consultez nos pages locales dédiées pour trouver une prestation adaptée près de chez vous.</p>
+        <ul class="city-seo-links">
+            {% for city in city_pages %}
+                <li>
+                    <a href="{% url 'guide:city_page' city_slug=city.slug %}">Coiffure Afro à {{ city.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
 </main>
 {% endblock %}
