@@ -1,7 +1,7 @@
 {% extends 'guide/base.html' %}
 
-{% block title %}Coiffure Afro à {{ city.name }} - Salon Jordana{% endblock %}
-{% block meta_description %}Trouvez une coiffure afro à {{ city.name }} : tresses, locks, tissages, soins et coiffeuses spécialisées. Guide local Salon Jordana.{% endblock %}
+{% block title %}Blog Coiffure Afro à {{ city.name }} - Salon Jordana{% endblock %}
+{% block meta_description %}Articles coiffure afro à {{ city.name }} : inspirations, conseils et adresses beauté pour cheveux crépus, frisés et bouclés.{% endblock %}
 
 {% block content %}
 <main class="city-page">
@@ -9,50 +9,50 @@
 
     <section class="hero city-hero">
         <span class="tag-pill">Guide local</span>
-        <h1>Coiffure Afro à {{ city.name }}</h1>
+        <h1>Blog Coiffure Afro à {{ city.name }}</h1>
         <p class="seo-intro">{{ city.intro }}</p>
     </section>
 
     <section class="city-long-seo-text">
-        <h2>Où trouver une coiffure afro à {{ city.name }} ?</h2>
+        <h2>Nos conseils coiffure afro à {{ city.name }}</h2>
         <p>
-            La recherche d'une bonne adresse de coiffure afro à {{ city.name }} repose sur plusieurs critères :
-            l'expérience sur cheveux crépus et frisés, la qualité du conseil, la transparence des tarifs et la
-            disponibilité selon votre emploi du temps. Cette page vous aide à comparer les profils les plus pertinents
-            pour préparer votre prochain rendez-vous.
+            Entre routines capillaires, inspirations coiffures protectrices et bonnes pratiques d'entretien,
+            cette page locale regroupe l'essentiel pour prendre soin de vos cheveux crépus, frisés ou bouclés
+            à {{ city.name }}. Vous y trouverez des contenus utiles pour préparer vos prochains looks,
+            mieux comprendre votre texture et adopter des gestes durables.
         </p>
         <p>
-            Que vous cherchiez des nattes collées, des knotless braids, un retwist, un tissage ou un soin profond,
-            l'important est d'être accompagnée par une professionnelle qui comprend la nature de votre cheveu,
-            vos objectifs et les besoins de votre cuir chevelu. Sur Salon Jordana, nous mettons en avant les prestataires
-            qui interviennent à {{ city.name }} et dans les communes voisines.
+            Que vous cherchiez des idées de tresses, un retwist, des astuces pour prolonger vos coiffures
+            ou des recommandations produits, Salon Jordana partage des articles éditoriaux pensés pour
+            votre quotidien et adaptés à la réalité locale.
         </p>
     </section>
 
-    <section class="city-providers">
-        <h2>Prestataires disponibles à {{ city.name }}</h2>
-        {% if providers %}
-            <div class="bento-grid">
-                {% for provider in providers %}
-                    <article class="bento-item">
-                        <a href="{{ provider.get_absolute_url }}">
-                            <span class="card-category">{{ provider.category.name }}</span>
-                            <h3 class="card-title">{{ provider.title }}</h3>
-                            <p class="card-excerpt">{{ provider.excerpt }}</p>
-                        </a>
-                    </article>
-                {% endfor %}
-            </div>
-        {% else %}
-            <p>Aucun prestataire spécifique à {{ city.name }} n'est encore publié. Revenez bientôt.</p>
-        {% endif %}
+    <section class="city-articles">
+        <h2>Articles à lire à {{ city.name }}</h2>
+        <div class="bento-grid">
+            {% for post in posts %}
+                <article class="bento-item">
+                    <a href="{{ post.get_absolute_url }}">
+                        <span class="card-category">{{ post.category.name }}</span>
+                        <h3 class="card-title">{{ post.title }}</h3>
+                        <p class="card-excerpt">{{ post.excerpt }}</p>
+                    </a>
+                </article>
+            {% empty %}
+                <article class="bento-item">
+                    <h3 class="card-title">Inspiration coiffure afro</h3>
+                    <p class="card-excerpt">Retrouvez bientôt de nouveaux articles autour des routines et styles afro.</p>
+                </article>
+            {% endfor %}
+        </div>
     </section>
 
     <section class="city-services-links">
-        <h2>Services populaires à {{ city.name }}</h2>
+        <h2>Rubriques populaires à {{ city.name }}</h2>
         <ul>
-            {% for service in service_links %}
-                <li><a href="{{ service.url }}">{{ service.label }}</a></li>
+            {% for topic in city_topic_links %}
+                <li><a href="{{ topic.url }}">{{ topic.label }}</a></li>
             {% endfor %}
         </ul>
     </section>
