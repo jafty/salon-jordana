@@ -72,7 +72,23 @@ class UrlResolutionTests(TestCase):
     def test_city_page_url_resolves(self):
         response = self.client.get(reverse('guide:city_page', kwargs={'city_slug': 'toulouse'}), follow=True)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Coiffure Afro à Toulouse')
+        self.assertContains(response, 'Blog Coiffure Afro à Toulouse')
+
+
+    def test_city_page_uses_blog_fallback_without_provider_wording(self):
+        other_post = Post.objects.create(
+            title='Routine cheveux crépus hiver',
+            category=self.category,
+            excerpt='Conseils pratiques',
+            content='Contenu de test',
+        )
+
+        response = self.client.get(reverse('guide:city_page', kwargs={'city_slug': 'blagnac'}), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, other_post.title)
+        self.assertNotContains(response, 'prestataire')
+
 
     def test_city_page_404_for_unknown_city(self):
         response = self.client.get(reverse('guide:city_page', kwargs={'city_slug': 'unknown'}), follow=True)

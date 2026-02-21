@@ -56,28 +56,31 @@ class CityPageView(TemplateView):
         city = next((item for item in CITY_PAGES if item['slug'] == self.kwargs['city_slug']), None)
         if city is None:
             raise Http404('City page not found')
-        city_name = city['name']
 
-        providers = Post.objects.filter(title__icontains=city_name)
-        providers = providers | Post.objects.filter(excerpt__icontains=city_name)
-        providers = providers | Post.objects.filter(content__icontains=city_name)
+        city_name = city['name']
+        local_posts = Post.objects.filter(title__icontains=city_name)
+        local_posts = local_posts | Post.objects.filter(excerpt__icontains=city_name)
+        local_posts = local_posts | Post.objects.filter(content__icontains=city_name)
+        local_posts = local_posts.distinct()[:12]
+
+        posts = local_posts if local_posts else Post.objects.all()[:12]
 
         context.update(
             {
                 'city': city,
-                'providers': providers.distinct()[:12],
-                'service_links': [
+                'posts': posts,
+                'city_topic_links': [
                     {
-                        'label': f"Tresses afro à {city_name}",
-                        'url': f"/services/tresses/{city['slug']}/",
+                        'label': f"Idées coiffure afro à {city_name}",
+                        'url': f"/categories/idees-coiffure-{city['slug']}/",
                     },
                     {
-                        'label': f"Locks & retwist à {city_name}",
-                        'url': f"/services/locks/{city['slug']}/",
+                        'label': f"Conseils entretien cheveux crépus à {city_name}",
+                        'url': f"/categories/conseils-entretien-{city['slug']}/",
                     },
                     {
-                        'label': f"Tissage à {city_name}",
-                        'url': f"/services/tissage/{city['slug']}/",
+                        'label': f"Adresses beauté afro autour de {city_name}",
+                        'url': f"/categories/adresses-beaute-{city['slug']}/",
                     },
                 ],
             }
